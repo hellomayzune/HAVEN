@@ -45,10 +45,10 @@ The analysis uses hourly air temperature, relative humidity and dew-point temper
 
 | | Question | Notebooks |
 |---|---|---|
-| **RQ1** | How is night-time heat exposure distributed across indoor zones before, during and after outdoor heatwaves? | 05 (with 01–02) |
-| **RQ2** | How long does night-time heat persist during and after indoor heat episodes, and how reliably can room-level thermal recovery be quantified from free-running monitoring data? | 05 |
-| **RQ3** | How are indoor heat episodes aligned in time with outdoor heatwaves, and how sensitive is this alignment to the choice of outdoor record? | 02, 05 |
-| **RQ4** | To what extent can hot bedroom nights be anticipated 24 h and 48 h ahead, with what confidence, and with what gain over simple baselines, particularly on the first night of an episode? | 03, 04, 06 |
+| **RQ1** | To be updated | 05 (with 01–02) |
+| **RQ2** | To be updated | 05 |
+| **RQ3** | To be updated | 02, 05 |
+| **RQ4** | To be updated | 03, 04, 06 |
 
 [Back to top](#️-haven-human-centred-assessment-of-vulnerability-to-environmental-heat-at-night)
 
