@@ -8,11 +8,11 @@
 
 </p>
 
+> ℹ️ HAVEN is a workflow for assessing bedroom-level night-time heat exposure from indoor temperature monitoring. It examines cumulative overnight heat exposure, post-peak cooling behaviour, and the feasibility of day-ahead hot-night warnings. In a single monitored home, cumulative exposure provided more consistent room-level comparisons than fitted cooling rates, while forecasting methods outperformed simple baselines overall but were less reliable on the first hot night.
+
 # 🌡️ HAVEN: Human-centred Assessment of Vulnerability to Environmental heat at Night
 
-> ℹ️ **Plain English Version**: HAVEN is a workflow that turns room-by-room temperature monitoring into three things: how much night-time heat each bedroom accumulates, how long that heat lingers, and whether hot nights can be warned of a day ahead. Applied to one monitored home, HAVEN showed that cumulative night-time exposure ranks rooms consistently, fitted cooling rates do not, and day-ahead warnings beat simple baselines overall but not reliably on the first hot night. 
-
-This repository contains the Jupyter notebooks, shared Python source code, input data documentation and processed outputs for **HAVEN**, an empirical framework for assessing night-time residential heat. HAVEN applies consistent definitions to measured records: indoor heat episodes are identified directly from bedroom temperature measurements, independently of outdoor heatwave dates; night-time exposure and recovery indicators are computed from empirical measurements; and candidate hot-night warnings are generated from room-level forecasts and simple baselines over identical periods.
+This repository contains the Jupyter notebooks, shared Python source code, input data documentation and processed outputs for **HAVEN**, an empirical framework for assessing night-time residential heat. HAVEN applies consistent definitions to measured records: indoor heat episodes are identified directly from bedroom temperature measurements, independently of outdoor heatwave dates; night-time exposure and recovery indicators are computed from empirical measurements; and candidate hot-night warnings are generated from room-level forecasts and evaluated against simple baselines over identical periods.
 
 The analysis uses hourly air temperature, relative humidity and dew-point temperature measurements from seven indoor zones and one outdoor logger installed in a free-running detached dwelling in the East Midlands, UK. The monitoring period runs from 1 May 2023 to 1 October 2026. The analysis is supplemented by hourly observations from the nearest synoptic station, obtained through the Met Office MIDAS Open dataset. The term "human-centred" refers to the spatial and temporal focus of the analysis: bedrooms during sleeping hours. No occupant-level, behavioural, sleep or health measurements were collected.
 
@@ -45,10 +45,10 @@ The analysis uses hourly air temperature, relative humidity and dew-point temper
 
 | | Question | Notebooks |
 |---|---|---|
-| **RQ1** | To be updated | 05 (with 01–02) |
-| **RQ2** | To be updated | 05 |
-| **RQ3** | To be updated | 02, 05 |
-| **RQ4** | To be updated | 03, 04, 06 |
+| **RQ1** | To be updated upon publication | 05 (with 01–02) |
+| **RQ2** | To be updated upon publication | 05 |
+| **RQ3** | To be updated upon publication | 02, 05 |
+| **RQ4** | To be updated upon publication | 03, 04, 06 |
 
 [Back to top](#️-haven-human-centred-assessment-of-vulnerability-to-environmental-heat-at-night)
 
@@ -59,7 +59,7 @@ The analysis uses hourly air temperature, relative humidity and dew-point temper
 - **Contents**: Jupyter notebooks (`.ipynb`) with HTML previews, Python modules (`.py`), and generated artefacts (tables, figures, and model files: `.csv`, `.png`, `.pdf`, `.joblib`, `.json`).
 - **Programming Language**: `Python` (`pandas`, `numpy`, `scipy`, `scikit-learn`, `statsmodels`, `matplotlib`, `seaborn`, `pyarrow`, `openpyxl`, `joblib`).
 - **Methodological Scope**: No numerical building-physics simulations are used; all reported results derive directly from empirical measurements and statistical models fitted to them.
-- **Repository Metadata**: Created 2 November 2026. 
+- **Repository Metadata**: Created 2 November 2026.
 
 📌 **Repository Map**
 
@@ -85,7 +85,9 @@ The analysis uses hourly air temperature, relative humidity and dew-point temper
 │   ├── 04_model_training_and_hyperparameter_tuning.ipynb
 │   ├── 05_resilience_metrics_and_evaluation.ipynb
 │   ├── 06_night_time_warnings.ipynb
-│   └── 0*-preview.html                          # Static HTML exports of executed notebooks (generated at final cell)
+│   ├── 0*-preview.html                          # Static HTML exports of executed notebooks (generated at final cell)
+│   ├── x-combine.ipynb                          # Merges the six notebooks into one file
+│   └── HAVEN_ML_combined.ipynb / .html          # The six notebooks in one file, with its HTML export
 ├── data/
 │   ├── raw/
 │   │   ├── NottinghamMeasuredTRH.xlsx           # Hourly monitoring record, 8 sheets (non-distributable)
@@ -94,11 +96,11 @@ The analysis uses hourly air temperature, relative humidity and dew-point temper
 ├── models/                                      # Fitted Ridge models and execution summaries (ridge.joblib, model_summary.json)
 └── outputs/
     ├── figures/
-    │   ├── manuscript/                          # Main text figures (Figures 2–6; .png, .pdf; Figure 2 combines dual files)
+    │   ├── manuscript/                          # Main text figures (Figures 2–6; .png, .pdf; Figure 2 combines two files)
     │   └── supplementary/                       # Supplementary figures (Figures S1–S19 and workflow schematic)
     └── tables/
-        ├── manuscript/                          # Main text tabular data (Tables 1–7 and Appendix Table A1; .csv)
-        └── supplementary/                       # Supplementary tables (Tables S1–S60 and supporting data files)
+        ├── manuscript/                          # Main text tabular data (Tables 1–5; .csv)
+        └── supplementary/                       # Supplementary tables (Tables S1–S63 and supporting data files)
 ```
 
 [Back to top](#️-haven-human-centred-assessment-of-vulnerability-to-environmental-heat-at-night)
@@ -149,7 +151,7 @@ The six notebooks execute sequentially, sharing modular code from the `src/` dir
 
 | Purpose | Key inputs | Produces |
 |---|---|---|
-| Generate night-level forecasts and identify observed hot nights; estimate probabilities using an updating pool of historical forecast errors; margins and probability thresholds on validation sets; evaluate warning skill via paired block-bootstrap differences; assess probability calibration and prediction-interval coverage; test first-night warning performance under matched false-alarm rates; evaluate warning lead times and relative economic value under specified cost–loss assumptions; assess performance under sensor loss and idealised future-weather information; calculate Ridge feature contributions by source (supplementary); evaluate performance across a second summer test period, alternative night-mean event definitions, fixed decision margins and logistic-regression comparators. | Notebook 04–05 outputs, models in `models/` | `warning_skill.csv`, `warning_skill_both_summers.csv`, `effective_sample_sizes.csv`, `probability_calibration.csv`, `interval_coverage_by_condition.csv`, `first_night_warnings.csv`, `warning_skill_fold2.csv`, `fixed_margin_both_folds.csv`, `probability_warnings_both_summers.csv` and associated tables; evaluation figures |
+| Generate night-level forecasts and identify observed hot nights; estimate probabilities using an updating pool of historical forecast errors; select margins and probability thresholds on validation sets; evaluate warning skill via paired block-bootstrap differences; assess probability calibration and prediction-interval coverage; test first-night warning performance at equal numbers of false alarms; evaluate warning lead times and relative economic value under specified cost–loss assumptions; assess performance under sensor loss and idealised future-weather information; calculate Ridge feature contributions by source (supplementary); evaluate performance across a second summer test period, alternative night-mean event definitions, fixed decision margins and logistic-regression comparators. | Notebook 04–05 outputs, models in `models/` | `warning_skill.csv`, `warning_skill_both_summers.csv`, `effective_sample_sizes.csv`, `probability_calibration.csv`, `interval_coverage_by_condition.csv`, `first_night_warnings.csv`, `warning_skill_fold2.csv`, `fixed_margin_both_folds.csv`, `probability_warnings_both_summers.csv` and associated tables; evaluation figures |
 
 [Back to top](#️-haven-human-centred-assessment-of-vulnerability-to-environmental-heat-at-night)
 
@@ -207,7 +209,7 @@ Execute the notebooks in sequence from a fresh kernel:
 ### **Re-running from Public Files**
 Because the raw monitoring records and derived intermediate files are non-distributable (`ADR-008`), the complete set of results from the reported run are pre-packaged in `outputs/` and `models/`. The notebooks are designed to execute on a locally supplied workbook that matches the schema documented in `DATASHEET.md` (Dataset A). Successful execution may also depend on the availability and compatibility of the required MIDAS files and software environment.
 
-*Tip: Before a clean replication, clear the manuscript and supplementary output folders so that files from earlier runs are not mistaken for new outputs.*
+*Tip: Before a clean replication, clear the manuscript and supplementary output directories so that files from earlier runs are not mistaken for newly generated outputs.*
 
 [Back to top](#️-haven-human-centred-assessment-of-vulnerability-to-environmental-heat-at-night)
 
@@ -239,14 +241,11 @@ Additional repository documentation follows established open-science and AI repr
 | Figure 4 | `figures/manuscript/event_envelopes_2026` | 05 |
 | Figure 5 | `figures/manuscript/forecast_rmse_by_horizon` | 04 |
 | Figure 6 | `figures/manuscript/warning_tradeoff` | 06 |
-| Table 1 | `tables/manuscript/zone_summary_statistics.csv` | 02 |
-| Table 2 | `tables/manuscript/exposure_and_recovery_by_zone.csv` | 05 |
-| Table 3 | `tables/manuscript/tm59_criterion_b_bedrooms.csv` | 05 |
-| Table 4 | `tables/manuscript/indoor_episode_catalogue.csv` | 05 |
-| Table 5 | `tables/manuscript/halflife_split_half_reliability.csv` | 05 |
-| Table 6 | `tables/manuscript/warning_skill.csv` | 06 |
-| Table 7 | `tables/manuscript/warning_skill_both_summers.csv` | 06 |
-| Table A1 | `tables/manuscript/effective_sample_sizes.csv` | 06 |
+| Table 1 | `tables/manuscript/exposure_and_recovery_by_zone.csv` | 05 |
+| Table 2 | `tables/manuscript/tm59_criterion_b_bedrooms.csv` | 05 |
+| Table 3 | `tables/manuscript/indoor_episode_catalogue.csv` | 05 |
+| Table 4 | `tables/manuscript/halflife_split_half_reliability.csv` | 05 |
+| Table 5 | `tables/manuscript/warning_skill_both_summers.csv` | 06 |
 
 **Supplementary tables** (`tables/supplementary/`)
 
@@ -312,6 +311,9 @@ Additional repository documentation follows established open-science and AI repr
 | S58 | `probability_warnings_both_summers.csv` | 06 |
 | S59 | `forecast_accuracy_by_horizon.csv` (with `forecast_paired_differences.csv`) | 04 |
 | S60 | `bedroom_exposure_common_nights.csv` | 05 |
+| S61 | `zone_summary_statistics.csv` | 02 |
+| S62 | `warning_skill.csv` | 06 |
+| S63 | `effective_sample_sizes.csv` | 06 |
 
 **Supplementary figures** (`figures/supplementary/`)
 
